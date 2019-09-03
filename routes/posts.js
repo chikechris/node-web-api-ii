@@ -9,12 +9,10 @@ router.get('/', (req, res) => {
       res.status(200).json(posts)
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: 'The post information could not be retrieved.'
-        })
+      res.status(500).json({
+        success: false,
+        message: 'The post information could not be retrieved.'
+      })
     })
 })
 
@@ -36,10 +34,5 @@ router.get('/:id', (req, res) => {
         .json({ error: 'The post information could not be retrieved.' })
     })
 })
-
-
-
-
-
 
 module.exports = router
