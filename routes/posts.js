@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:id', (req, res) => {
+router.get('/api/post/:id', (req, res) => {
   const postId = req.params.id
   db.findById(postId)
     .then(post => {
@@ -71,6 +71,32 @@ router.post('/api/posts/:id/comments', (req, res) => {
         .json({ message: 'The post with the specified ID does not exist.' })
     }
   })
+})
+
+// Delete
+router.delete('/api/posts/:id', (req, res) => {
+  const postId = req.params.id
+
+  db.findById(postId)
+    .then(result => {
+      const postDelete = result
+      if (result.length > 0) {
+        db.remove(postId)
+          .then(results => {
+            res.status(200).json(postDelete)
+          })
+          .catch(err => {
+            res.status(500).json({ error: 'The post could not be removed' })
+          })
+      } else {
+        res
+          .status(404)
+          .json({ message: 'The post with the specified ID does not exist.' })
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
 })
 
 module.exports = router
